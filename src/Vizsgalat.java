@@ -2,7 +2,7 @@ import org.w3c.dom.ls.LSOutput;
 
 public class Vizsgalat {
     String paciensNeve, orvosSzakterulete ;
-    int alapdij;
+    int alapdij, idotartam = 30;
 
     public Vizsgalat(String paciensNeve, String orvosSzakterulete, int alapdij) {
         this.setPaciensNeve(paciensNeve);
@@ -15,10 +15,10 @@ public class Vizsgalat {
     }
 
     public void setPaciensNeve(String paciensNeve) {
-        if(paciensNeve != "" || paciensNeve != null) {
+        if(!paciensNeve.trim().isEmpty()) {
             this.paciensNeve = paciensNeve;
         } else {
-            System.out.println("Hiba a név módosításánál: " + paciensNeve);
+            throw new IllegalArgumentException("Hiba a páciens neve beállításakor!");
         }
 
     }
@@ -28,10 +28,10 @@ public class Vizsgalat {
     }
 
     public void setOrvosSzakterulete(String orvosSzakterulete) {
-        if(orvosSzakterulete != "" || orvosSzakterulete != null) {
+        if(!orvosSzakterulete.trim().isEmpty()) {
             this.orvosSzakterulete = orvosSzakterulete;
         } else {
-            System.out.println("Hiba a szakterület módosításánál: " + orvosSzakterulete);
+            throw new IllegalArgumentException("Hiba az orvos szakterülete beállításakor!");
         }
     }
 
@@ -43,12 +43,29 @@ public class Vizsgalat {
         if(alapdij > 0) {
             this.alapdij = alapdij;
         } else {
-            System.out.println("Hiba az alapdíj módosításánál: " + alapdij);
+            throw new IllegalArgumentException("Hiba az Alapdíj beállításakor!");
         }
+    }
+
+    public int getIdotartam() {
+        return idotartam;
+    }
+
+    public void setIdotartam(int idotartam) {
+        if(idotartam > 0) {
+            this.idotartam = idotartam;
+        } else {
+            throw new IllegalArgumentException("Hiba az időtartam beállításakor!");
+        }
+
     }
 
     public int vizsgalatVegsoAr(){
         return this.getAlapdij();
+    }
+
+    public int idotartamSzamitasa(){
+        return this.getIdotartam();
     }
 
     @Override
@@ -56,8 +73,9 @@ public class Vizsgalat {
         return "VizsgÁlat{" +
                 "páciens neve: '" + this.getPaciensNeve() + '\'' +
                 ", orvos szakterülete: '" + this.getOrvosSzakterulete() + '\'' +
-                ", alapdíj: " + this.getAlapdij() + '\'' +
-                ", vizsgálat végső: " + this.vizsgalatVegsoAr() + '\'' +
+                ", alapdíj: " + this.getAlapdij() + "Ft\'" +
+                ", vizsgálat végső ára: " + this.vizsgalatVegsoAr() + "Ft\'" +
+                ", időtartam: " + this.idotartamSzamitasa() + "perc\'" +
                 '}';
     }
 }
